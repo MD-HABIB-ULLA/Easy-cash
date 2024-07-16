@@ -1,11 +1,16 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
+import toast from "react-hot-toast";
+import { UserContext } from "../Context/UserContext";
 
 const WelcomePage = () => {
-  const [login, setLogin] = useState(true);
+  const [register, setRegister] = useState(true);
+  const {  setUserData } = useContext(UserContext);
+  // console.log(userData)
   const [loginWithEmail, setLoginWithEmail] = useState(true);
   const [errorMassage, setErrorMassage] = useState("");
 
-  const handleLoginForm = (e) => {
+  const handleRegisterForm = async (e) => {
     e.preventDefault();
     const form = e.target;
     const firstName = form.firstName.value;
@@ -13,7 +18,7 @@ const WelcomePage = () => {
     const phoneNumber = form.phoneNumber.value;
     const email = form.email.value;
     const pin = form.pin.value;
-    console.log(pin.length);
+
     if (pin.length === 6) {
       const formData = {
         firstName,
@@ -22,13 +27,47 @@ const WelcomePage = () => {
         email,
         pin,
       };
-      console.log(formData);
-      document.getElementById("my_modal_3").close();
+
+      try {
+        const res = await axios.post(
+          "http://localhost:4000/register",
+          formData
+        );
+        console.log(res.response);
+        if (res.data.acknowledged) {
+          // localStorage.setItem("access-token", res.data.token);
+          console.log(res.data);
+          // Assuming you are using a modal library that requires a ref or similar to close
+          const modal = document.getElementById("my_modal_3");
+          if (modal) modal.close();
+          toast.success(
+            "Successfully created account now just wait until until user validate your profile "
+          );
+          form.reset();
+        }
+      } catch (err) {
+        const modal = document.getElementById("my_modal_3");
+        if (modal) modal.close();
+        form.reset();
+        // console.error("Error submitting form:", err.response.data);
+        toast.error(err.response.data);
+      }
     } else {
-      setErrorMassage("Pin should be 6 digit");
+      setErrorMassage("Pin should be 6 digits");
     }
   };
-  console.log(login);
+  const handleLoginForm = async (e)=>{
+    e.preventDefault();
+    const form = e.target;
+    const phoneNumber = form.phoneNumber?.value;
+    const email = form.email?.value;
+    const pin = form.pin.value;
+    const formData = {
+      phoneNumber, email, pin
+    }
+    console.log(formData)
+  }
+
   return (
     <div className="min-h-screen bg-[#F1F8E8] font-semibold flex items-center justify-center">
       <div className="text-center uppercase text-5xl ">
@@ -37,7 +76,7 @@ const WelcomePage = () => {
         <div className="flex gap-5 justify-center mt-5">
           <button
             onClick={() => {
-              setLogin(true);
+              setRegister(true);
               document.getElementById("my_modal_3").showModal();
             }}
             className="btn bg-[#95D2B3]  font-bold capitalize hover:bg-[#95D2B3]"
@@ -46,7 +85,7 @@ const WelcomePage = () => {
           </button>
           <button
             onClick={() => {
-              setLogin(false);
+              setRegister(false);
               document.getElementById("my_modal_3").showModal();
             }}
             className="btn bg-transparent border-2 border-[#95D2B3] capitalize hover:bg-[#95D2B3] duration-500"
@@ -63,8 +102,8 @@ const WelcomePage = () => {
               ✕
             </button>
           </form>
-          {login ? (
-            <form onSubmit={handleLoginForm} className="mt-6">
+          {register ? (
+            <form onSubmit={handleRegisterForm} className="mt-6">
               <div className="flex justify-between gap-3">
                 <span className="w-1/2">
                   <label
@@ -157,7 +196,7 @@ const WelcomePage = () => {
               </button>
             </form>
           ) : (
-            <form action="" className="mt-6">
+            <form action="" onSubmit={handleLoginForm} className="mt-6">
               {loginWithEmail ? (
                 <>
                   {" "}
@@ -197,7 +236,7 @@ const WelcomePage = () => {
                   <input
                     id="password"
                     type="number"
-                    name="number"
+                    name="phoneNumber"
                     placeholder="Enter a valid phone number"
                     autoComplete="new-password"
                     className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
@@ -210,7 +249,7 @@ const WelcomePage = () => {
                     htmlFor="email"
                     className="block mt-2 text-xs font-semibold cursor-pointer text-right text-info  uppercase"
                   >
-                    use eamil
+                    use email
                   </label>
                 </>
               )}
@@ -224,7 +263,7 @@ const WelcomePage = () => {
               <input
                 type="number"
                 name="pin"
-                placeholder="Enter a strong pin"
+                placeholder="Enter your pin"
                 className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
                 required
               />
@@ -243,6 +282,3 @@ const WelcomePage = () => {
 };
 
 export default WelcomePage;
-
-
-

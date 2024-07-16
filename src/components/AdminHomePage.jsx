@@ -27,6 +27,3 @@ const AdminHomePage = () => {
 
 export default AdminHomePage;
 
-
-// https://i.ibb.co/Ct7MvtM/management-2.png
-// https://i.ibb.co/6sd0BNw/management-1.png
