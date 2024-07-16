@@ -2,11 +2,14 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { UserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
+  const navigate = useNavigate()
   const [register, setRegister] = useState(true);
-  const {  setUserData } = useContext(UserContext);
-  // console.log(userData)
+  
+  const { setUserData ,setLoading } = useContext(UserContext);
+
   const [loginWithEmail, setLoginWithEmail] = useState(true);
   const [errorMassage, setErrorMassage] = useState("");
 
@@ -33,7 +36,7 @@ const WelcomePage = () => {
           "http://localhost:4000/register",
           formData
         );
-        console.log(res.response);
+
         if (res.data.acknowledged) {
           // localStorage.setItem("access-token", res.data.token);
           console.log(res.data);
@@ -56,17 +59,59 @@ const WelcomePage = () => {
       setErrorMassage("Pin should be 6 digits");
     }
   };
-  const handleLoginForm = async (e)=>{
+  const handleLoginForm = async (e) => {
+    setLoading(true)
     e.preventDefault();
     const form = e.target;
     const phoneNumber = form.phoneNumber?.value;
     const email = form.email?.value;
     const pin = form.pin.value;
     const formData = {
-      phoneNumber, email, pin
+      phoneNumber,
+      email,
+      pin,
+    };
+    if (pin.length === 6) {
+      const formData = {
+        phoneNumber,
+        email,
+        pin,
+      };
+
+      try {
+        const res = await axios.post("http://localhost:4000/login", formData);
+        console.log(res.data);
+        if (res.data.email) {
+          const userData = res.data
+          axios
+            .post("http://localhost:4000/jwt", formData)
+            .then((res) => {
+              console.log(res.data);
+              if (res.data.token) {
+                setUserData(userData)
+                localStorage.setItem("access-token", res.data.token);
+                const modal = document.getElementById("my_modal_3");
+                if (modal) modal.close();
+                form.reset();
+                toast.success("successfully logged in");
+                navigate("/home")
+                setLoading(false)
+              }
+            })
+            .catch((err) => console.log(err));
+        }
+      } catch (err) {
+        const modal = document.getElementById("my_modal_3");
+        if (modal) modal.close();
+        form.reset();
+        toast.error(err.response.data);
+      }
+    } else {
+      setErrorMassage("Pin should be 6 digits");
     }
-    console.log(formData)
-  }
+
+    console.log(formData);
+  };
 
   return (
     <div className="min-h-screen bg-[#F1F8E8] font-semibold flex items-center justify-center">

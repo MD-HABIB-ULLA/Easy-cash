@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { UserContext } from "../Context/UserContext";
+
 const UserPageContent = () => {
+  const { userData, loading } = useContext(UserContext);
   return (
     <div className="container grid lg:grid-cols-3 md:grid-cols-1 mx-auto gap-4 mt-4 px-3">
       <div className="bg-[#55AD9B]/50 text-2xl px-3 rounded-lg py-3 flex items-center  cursor-pointer justify-between">
