@@ -7,6 +7,7 @@ import WelcomePage from "./Pages/WelcomePage";
 import Home from "./Pages/Home";
 import { Toaster } from "react-hot-toast";
 import { UserProvider } from "./Context/UserContext";
+import AllUserList from "./Pages/AllUserList";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/allusers",
+    element: <AllUserList />,
   },
 ]);
 
