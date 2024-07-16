@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.notoSans {
+  font-family: "Noto Sans", sans-serif;
+}
+
+.toast-container {
+  z-index: 50; /* Adjust this value as needed */
+}
