@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const WelcomePage = () => {
   const navigate = useNavigate();
   const [register, setRegister] = useState(true);
-
+  localStorage.removeItem("access-token");
   const { setUserData, setLoading } = useContext(UserContext);
 
   const [loginWithEmail, setLoginWithEmail] = useState(true);
@@ -27,7 +27,7 @@ const WelcomePage = () => {
       currentDate.getMonth() + 1
     }/${currentDate.getFullYear()}`;
 
-    if ( pin.length === 6) {
+    if (pin.length === 6) {
       const formData = {
         firstName,
         lastName,
@@ -166,7 +166,6 @@ const WelcomePage = () => {
                   required
                   className="select select-bordered select-sm bg-[#F1F8E8] "
                 >
-                  
                   <option>user</option>
                   <option>agent</option>
                 </select>

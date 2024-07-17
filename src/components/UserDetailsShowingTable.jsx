@@ -1,8 +1,9 @@
 import { MdOutlineDelete } from "react-icons/md";
 import { MdOutlineDone } from "react-icons/md";
+import useLoadAllUser from "../Hooks/LoadAllUser";
 const UserDetailsShowingTable = ({ datas }) => {
   console.log(datas);
-
+  const [, refetch, ] = useLoadAllUser();
   const handleApproveBtn = (id) => {
     console.log(id)
   }
