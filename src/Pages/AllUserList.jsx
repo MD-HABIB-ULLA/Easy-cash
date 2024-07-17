@@ -1,4 +1,6 @@
 import axios from "axios";
+import UserDetailsShowingTable from "../components/UserDetailsShowingTable";
+import { FaHome } from "react-icons/fa";
 
 const AllUserList = () => {
   const fetchData = async () => {
@@ -14,7 +16,7 @@ const AllUserList = () => {
   // Call the function to fetch data
   fetchData();
   return (
-    <div>
+    <div className="relative">
       <div className="min-h-screen bg-[#F1F8E8]">
         <p
           className="text-5xl text-[#95D2B3] text-center font-semibold
@@ -22,6 +24,15 @@ const AllUserList = () => {
         >
           all user
         </p>
+        <UserDetailsShowingTable />
+      </div>
+      <div className="absolute top-7 left-7">
+        <div className="flex items-center justify-center">
+          <div className="  text-2xl text-[#95D2B3] p-2 border border-[#95D2B3] rounded-full">
+            <FaHome />
+          </div>
+        </div>
+        <p>home page</p>
       </div>
     </div>
   );
