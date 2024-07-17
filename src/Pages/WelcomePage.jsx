@@ -5,10 +5,10 @@ import { UserContext } from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [register, setRegister] = useState(true);
-  
-  const { setUserData ,setLoading } = useContext(UserContext);
+
+  const { setUserData, setLoading } = useContext(UserContext);
 
   const [loginWithEmail, setLoginWithEmail] = useState(true);
   const [errorMassage, setErrorMassage] = useState("");
@@ -21,14 +21,21 @@ const WelcomePage = () => {
     const phoneNumber = form.phoneNumber.value;
     const email = form.email.value;
     const pin = form.pin.value;
+    const appliedRole = form.role.value;
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getDate()}/${
+      currentDate.getMonth() + 1
+    }/${currentDate.getFullYear()}`;
 
-    if (pin.length === 6) {
+    if ( pin.length === 6) {
       const formData = {
         firstName,
         lastName,
         phoneNumber,
         email,
         pin,
+        appliedRole,
+        registrationDate: formattedDate,
       };
 
       try {
@@ -60,7 +67,7 @@ const WelcomePage = () => {
     }
   };
   const handleLoginForm = async (e) => {
-    setLoading(true)
+    setLoading(true);
     e.preventDefault();
     const form = e.target;
     const phoneNumber = form.phoneNumber?.value;
@@ -82,23 +89,26 @@ const WelcomePage = () => {
         const res = await axios.post("http://localhost:4000/login", formData);
         console.log(res.data);
         if (res.data.email) {
-          const userData = res.data
+          const userData = res.data;
           axios
             .post("http://localhost:4000/jwt", formData)
             .then((res) => {
               console.log(res.data);
               if (res.data.token) {
-                setUserData(userData)
+                setUserData(userData);
                 localStorage.setItem("access-token", res.data.token);
                 const modal = document.getElementById("my_modal_3");
                 if (modal) modal.close();
                 form.reset();
                 toast.success("successfully logged in");
-                navigate("/home")
-                setLoading(false)
+                navigate("/home");
+                setLoading(false);
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+              console.log(err);
+              toast.error(err.response.data);
+            });
         }
       } catch (err) {
         const modal = document.getElementById("my_modal_3");
@@ -149,6 +159,18 @@ const WelcomePage = () => {
           </form>
           {register ? (
             <form onSubmit={handleRegisterForm} className="mt-6">
+              <div className="flex items-center gap-2 mb-2">
+                <p className="uppercase text-gray-600 ">register as a</p>
+                <select
+                  name="role"
+                  required
+                  className="select select-bordered select-sm bg-[#F1F8E8] "
+                >
+                  
+                  <option>user</option>
+                  <option>agent</option>
+                </select>
+              </div>
               <div className="flex justify-between gap-3">
                 <span className="w-1/2">
                   <label
@@ -312,11 +334,17 @@ const WelcomePage = () => {
                 className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
                 required
               />
+              <label
+                htmlFor="password-confirm"
+                className="block mt-2 text-xs font-semibold text-red-500 uppercase"
+              >
+                {errorMassage}
+              </label>
               <button
                 type="submit"
                 className="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase rounded-lg bg-[#95D2B3] shadow-lg focus:outline-none hover:bg-[#95D2B3] hover:shadow-none"
               >
-                crate account
+                Login
               </button>
             </form>
           )}
