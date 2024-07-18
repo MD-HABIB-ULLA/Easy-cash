@@ -3,15 +3,28 @@ import { MdOutlineDone } from "react-icons/md";
 import useLoadAllUser from "../Hooks/LoadAllUser";
 import { useContext, useState } from "react";
 import { UserContext } from "../Context/UserContext";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 const UserDetailsShowingTable = ({ datas }) => {
+  const axiosSecure = useAxiosSecure();
   const [deletedId, setDeletedId] = useState("");
-  console.log(deletedId)
+  const [errorMassage, setErrorMassage] = useState("");
   const { userData, loading } = useContext(UserContext);
-  // console.log(userData);
-  // console.log(datas);
+
   const [, refetch] = useLoadAllUser();
-  const handleApproveBtn = (id) => {
-    console.log(id);
+  const handleApproveBtn = async (e) => {
+    e.preventDefault();
+    const pin = e.target.pin.value;
+    console.log(deletedId, pin);
+    const modal = document.getElementById("my_modal_3");
+    if (modal) modal.close();
+    if (pin.length === 6) {
+      const res = await axiosSecure.delete(
+        `/approve?id=${deletedId}&pin=${pin}`
+      );
+      console.log(res.data)
+    } else {
+      setErrorMassage("Pin should be 6 digits");
+    }
   };
   return (
     <div>
@@ -77,8 +90,33 @@ const UserDetailsShowingTable = ({ datas }) => {
                 ✕
               </button>
             </form>
-            <h3 className="font-bold text-lg">Hello!</h3>
-            <p className="py-4">Press ESC key or click on ✕ button to close</p>
+            <form className="" onSubmit={handleApproveBtn}>
+              <label
+                htmlFor="password-confirm"
+                className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
+              >
+                Enter your pin
+              </label>
+              <input
+                type="number"
+                placeholder="Enter your pin"
+                name="pin"
+                className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                required
+              />
+              <label
+                htmlFor="password-confirm"
+                className="block mt-2 text-xs font-semibold text-red-500 uppercase"
+              >
+                {errorMassage}
+              </label>
+              <button
+                type="submit"
+                className="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase rounded-lg bg-[#95D2B3] shadow-lg focus:outline-none hover:bg-[#95D2B3] hover:shadow-none"
+              >
+                Confirm
+              </button>
+            </form>
           </div>
         </dialog>
       </div>
