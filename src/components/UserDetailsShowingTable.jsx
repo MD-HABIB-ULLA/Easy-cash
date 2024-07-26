@@ -9,6 +9,7 @@ const UserDetailsShowingTable = ({ datas }) => {
   const [deletedId, setDeletedId] = useState("");
   const [errorMassage, setErrorMassage] = useState("");
   const { userData, loading } = useContext(UserContext);
+  console.log(userData)
 
   const [, refetch] = useLoadAllUser();
   const handleApproveBtn = async (e) => {
@@ -19,7 +20,7 @@ const UserDetailsShowingTable = ({ datas }) => {
     if (modal) modal.close();
     if (pin.length === 6) {
       const res = await axiosSecure.delete(
-        `/approve?id=${deletedId}&pin=${pin}`
+        `/approve?id=${deletedId}&pin=${pin}&email=${userData.email}`
       );
       console.log(res.data)
     } else {
