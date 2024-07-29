@@ -22,7 +22,10 @@ const UserDetailsShowingTable = ({ datas }) => {
       const res = await axiosSecure.delete(
         `/approve?id=${deletedId}&pin=${pin}&email=${userData.email}`
       );
-      console.log(res.data)
+      
+     if(res.data.deletedCount){
+      refetch()
+     }
     } else {
       setErrorMassage("Pin should be 6 digits");
     }
