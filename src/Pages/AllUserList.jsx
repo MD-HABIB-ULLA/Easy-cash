@@ -2,12 +2,11 @@ import UserDetailsShowingTable from "../components/UserDetailsShowingTable";
 import { FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useLoadAllUser from "../Hooks/LoadAllUser";
-
+import { SyncLoader } from "react-spinners";
 
 const AllUserList = () => {
   const [userData, , isPending] = useLoadAllUser();
-  console.log(userData,isPending);
-
+  console.log(userData, isPending);
 
   return (
     <div className="relative">
@@ -20,20 +19,29 @@ const AllUserList = () => {
             all user
           </p>
         </div>
-        {!isPending && (
-          <div className=" mt-10 ">
-            <div className="text-xl text-[#95D2B3] text-center uppercase mb-2">
-              <p>Pending users</p>
-            </div>
-            <UserDetailsShowingTable datas={userData.pendingUsers} />
+        {!isPending ? (
+          <div>
+            {!isPending && (
+              <div className=" mt-10 ">
+                <div className="text-xl text-[#95D2B3] text-center uppercase mb-2">
+                  <p>Pending users</p>
+                </div>
+                <UserDetailsShowingTable datas={userData.pendingUsers} />
+              </div>
+            )}
+            {!isPending && (
+              <div className=" mt-10 pb-10 ">
+                <div className="text-xl text-[#95D2B3] text-center uppercase mb-2">
+                  <p>Valid users</p>
+                </div>
+                <UserDetailsShowingTable datas={userData.users} />
+              </div>
+            )}
           </div>
-        )}
-        {!isPending && (
-          <div className=" mt-10 pb-10 ">
-            <div className="text-xl text-[#95D2B3] text-center uppercase mb-2">
-              <p>Valid users</p>
-            </div>
-            <UserDetailsShowingTable datas={userData.users} />
+        ) : (
+          <div className="flex justify-center items-center mt-20">
+            {" "}
+            <SyncLoader color="#95D2B3" size={10} speedMultiplier={0.6} />
           </div>
         )}
       </div>
@@ -52,4 +60,3 @@ const AllUserList = () => {
 };
 
 export default AllUserList;
-

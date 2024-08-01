@@ -13,7 +13,7 @@ const AdminHomePage = () => {
           alt=""
         />
       </Link>
-      <div className="bg-blue-500/50  text-2xl px-3 rounded-lg py-3 flex cursor-pointer items-center justify-between">
+      <Link to={'/allTransitions'} className="bg-blue-500/50  text-2xl px-3 rounded-lg py-3 flex cursor-pointer items-center justify-between">
         <span className="text-white font-semibold text-4xl uppercase">
          ALL Transactions History
         </span>
@@ -22,7 +22,7 @@ const AdminHomePage = () => {
           className="h-28 mr-3"
           alt=""
         />
-      </div>
+      </Link>
     </div>
   );
 };
