@@ -3,16 +3,18 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { UserContext } from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { SyncLoader } from "react-spinners";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
   const [register, setRegister] = useState(true);
   localStorage.removeItem("access-token");
-  const { setUserData, setLoading } = useContext(UserContext);
+  const { setUserData, loading,setLoading } = useContext(UserContext);
   const [loginWithEmail, setLoginWithEmail] = useState(true);
   const [errorMassage, setErrorMassage] = useState("");
 
   const handleRegisterForm = async (e) => {
+    setLoading(true)
     e.preventDefault();
     const form = e.target;
     const firstName = form.firstName.value;
@@ -53,6 +55,7 @@ const WelcomePage = () => {
             "Successfully created account now just wait until until user validate your profile "
           );
           form.reset();
+          setLoading(false)
         }
       } catch (err) {
         const modal = document.getElementById("my_modal_3");
@@ -257,7 +260,11 @@ const WelcomePage = () => {
                 type="submit"
                 className="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase rounded-lg bg-[#95D2B3] shadow-lg focus:outline-none hover:bg-[#95D2B3] hover:shadow-none"
               >
-                crate account
+                {loading ? (
+                  <SyncLoader color="#fffefe" size={10} speedMultiplier={0.6} />
+                ) : (
+                  "crate account"
+                )}
               </button>
             </form>
           ) : (
@@ -342,7 +349,11 @@ const WelcomePage = () => {
                 type="submit"
                 className="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase rounded-lg bg-[#95D2B3] shadow-lg focus:outline-none hover:bg-[#95D2B3] hover:shadow-none"
               >
-                Login
+                {loading ? (
+                  <SyncLoader color="#fffefe" size={10} speedMultiplier={0.6} />
+                ) : (
+                  "Login"
+                )}
               </button>
             </form>
           )}
