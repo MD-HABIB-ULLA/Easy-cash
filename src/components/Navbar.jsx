@@ -18,9 +18,9 @@ const Navbar = () => {
           <div className="text-white px-3 py-2 bg-[#95D2B3] rounded-lg flex items-center gap-4 font-bold ">
             {" "}
             <FaBangladeshiTakaSign />
-            {typeof userData.balance === "string"
-              ? parseInt(userData.balance, 10)
-              : userData.balance}
+            {typeof userData?.balance === "string"
+              ? parseInt(userData?.balance, 10)
+              : userData?.balance}
           </div>
           <div
             tabIndex={0}
@@ -42,11 +42,11 @@ const Navbar = () => {
             className=" menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-28 w-52 p-2 shadow"
           >
             <li>
-              <p>{userData.email}</p>
+              <p>{userData?.email}</p>
             </li>
             <li className="flex items-center">
            <p >Phone Number</p>
-           <p>{userData.phoneNumber}</p>
+           <p>{userData?.phoneNumber}</p>
             </li>
             
           </ul>

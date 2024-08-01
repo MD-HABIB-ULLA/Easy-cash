@@ -9,7 +9,6 @@ const WelcomePage = () => {
   const [register, setRegister] = useState(true);
   localStorage.removeItem("access-token");
   const { setUserData, setLoading } = useContext(UserContext);
-
   const [loginWithEmail, setLoginWithEmail] = useState(true);
   const [errorMassage, setErrorMassage] = useState("");
 
