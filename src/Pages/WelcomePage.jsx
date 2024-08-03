@@ -10,13 +10,13 @@ const WelcomePage = () => {
   const [register, setRegister] = useState(true);
   localStorage.removeItem("access-token");
   const { setUserData, loading,setLoading } = useContext(UserContext);
-  const [loginWithEmail, setLoginWithEmail] = useState(true);
+    const [loginWithEmail, setLoginWithEmail] = useState(true);
   const [errorMassage, setErrorMassage] = useState("");
 
   const handleRegisterForm = async (e) => {
     setLoading(true)
-    e.preventDefault();
-    const form = e.target;
+      e.preventDefault();
+      const form = e.target;
     const firstName = form.firstName.value;
     const lastName = form.lastName.value;
     const phoneNumber = form.phoneNumber.value;
@@ -60,12 +60,14 @@ const WelcomePage = () => {
       } catch (err) {
         const modal = document.getElementById("my_modal_3");
         if (modal) modal.close();
+        setLoading(false)
         form.reset();
         // console.error("Error submitting form:", err.response.data);
         toast.error(err.response.data);
       }
     } else {
       setErrorMassage("Pin should be 6 digits");
+      setLoading(false)
     }
   };
   const handleLoginForm = async (e) => {
@@ -110,6 +112,7 @@ const WelcomePage = () => {
             .catch((err) => {
               console.log(err);
               toast.error(err.response.data);
+              setLoading(false)
             });
         }
       } catch (err) {
@@ -117,6 +120,7 @@ const WelcomePage = () => {
         if (modal) modal.close();
         form.reset();
         toast.error(err.response.data);
+        setLoading(false)
       }
     } else {
       setErrorMassage("Pin should be 6 digits");
