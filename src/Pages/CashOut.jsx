@@ -5,6 +5,7 @@ import { FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { UserContext } from "../Context/UserContext";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const CashOut = () => {
   const [cashOutWithEmail, setCashOutWithEmail] = useState(true);
@@ -14,7 +15,7 @@ const CashOut = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [agentDetails, setAgentDetails] = useState(null);
   const { userData } = useContext(UserContext);
-
+  const axiosSecure = useAxiosSecure();
 
   const loadAllAgentDetails = async () => {
     setDetailsLoading(true);
@@ -23,7 +24,7 @@ const CashOut = () => {
     setDetailsLoading(false);
   };
 
-  const handleCashOut = (e) => {
+  const handleCashOut = async (e) => {
     // setLoading(true);
     e.preventDefault();
     const form = e.target;
@@ -31,8 +32,8 @@ const CashOut = () => {
     const phoneNumber = form.elements.phoneNumber
       ? form.elements.phoneNumber.value
       : "";
-    const pin = form.elements.pin.value
-      
+    const pin = form.elements.pin.value;
+
     const amount = parseFloat(form.elements.amount.value);
     if (amount > userData.balance) {
       setErrorMassage("you don't have sufficient balance");
@@ -45,13 +46,16 @@ const CashOut = () => {
       return; // Stop further processing if the amount is too high
     }
     const cashOutData = {
-        userEmail: userData.email,
-        agentEmail,
-        phoneNumber,
-        amount,
-        type: "cashOut",
-      };
-    console.log(cashOutData );
+      userEmail: userData.email,
+      agentEmail,
+      phoneNumber,
+      amount,
+      pin,
+      type: "cashOut",
+    };
+    console.log(cashOutData);
+    const res = await axiosSecure.post("http://localhost:4000/cashOut", cashOutData);
+      console.log(res.data);
   };
   return (
     <div className="relative min-h-screen bg-[#F1F8E8]">
@@ -231,7 +235,7 @@ const CashOut = () => {
             className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
             required
           />
-         
+
           <label
             htmlFor="password-confirm"
             className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
