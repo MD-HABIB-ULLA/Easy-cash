@@ -14,6 +14,7 @@ import AllTransitions from "./Pages/AllTransitions";
 import CashIn from "./Pages/CashIn";
 import UserRoute from "./private/UserRoute";
 import PendingTransitions from "./Pages/PendingTransitions";
+import CashOut from "./Pages/CashOut";
 // import { UserDataProvider } from "./Context/LoadDataContext";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "cashIn",
+    path: "/cashIn",
     element: (
       <UserRoute>
         <CashIn />
@@ -50,10 +51,18 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "pendingTransitions",
+    path: "/pendingTransitions",
     element: (
       <UserRoute>
         <PendingTransitions />
+      </UserRoute>
+    ),
+  },
+  {
+    path: "/cashOut",
+    element: (
+      <UserRoute>
+        <CashOut />
       </UserRoute>
     ),
   },

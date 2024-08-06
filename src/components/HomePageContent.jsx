@@ -10,10 +10,10 @@ const UserPageContent = () => {
         <span className="text-white font-semibold text-4xl  uppercase">Cash in</span>
         <img src="https://i.ibb.co/nfPm8J6/cash.png" className="h-28" alt="" />
       </Link>
-      <div className="bg-rose-500/50 text-2xl px-3 col-span-2 rounded-lg cursor-pointer py-3 flex items-center justify-between">
+      <Link to={"/cashOut"} className="bg-rose-500/50 text-2xl px-3 col-span-2 rounded-lg cursor-pointer py-3 flex items-center justify-between">
         <span className="text-white font-semibold text-4xl uppercase">Cash out</span>
         <img src="https://i.ibb.co/xLqY5zw/cash-withdrawal.png" className="h-28" alt="" />
-      </div>
+      </Link>
       <div className="bg-yellow-500/50 text-2xl px-3 col-span-2 cursor-pointer rounded-lg py-3 flex items-center justify-between">
         <span className="text-white font-semibold text-4xl uppercase">Send money</span>
         <img src="https://i.ibb.co/CtLth3N/send-money.png" className="h-28" alt="" />

@@ -1,95 +1,80 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { FaHome } from "react-icons/fa";
+// import { FaK, FaL } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { UserContext } from "../Context/UserContext";
-import toast from "react-hot-toast";
 
-const CashIn = () => {
-  const { userData } = useContext(UserContext);
+const CashOut = () => {
+  const [cashOutWithEmail, setCashOutWithEmail] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [errorMassage, setErrorMassage] = useState("");
   const [detailsLoading, setDetailsLoading] = useState(false);
-  const [cashInWithEmail, setCashInWithEmail] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [agentDetails, setAgentDetails] = useState(null);
-  const [errorMassage, setErrorMassage] = useState("");
+  const { userData } = useContext(UserContext);
 
-  console.log(userData);
+
   const loadAllAgentDetails = async () => {
     setDetailsLoading(true);
     const res = await axios.get("http://localhost:4000/allAgent");
     setAgentDetails(res.data);
     setDetailsLoading(false);
   };
-  const handleCashIn = async (e) => {
-    setLoading(true)
+
+  const handleCashOut = (e) => {
+    // setLoading(true);
     e.preventDefault();
     const form = e.target;
     const agentEmail = form.elements.email ? form.elements.email.value : "";
     const phoneNumber = form.elements.phoneNumber
       ? form.elements.phoneNumber.value
       : "";
+    const pin = form.elements.pin.value
+      
     const amount = parseFloat(form.elements.amount.value);
-    if (amount > 5000) {
-      setErrorMassage("Your cash in amount above 5000 tk at a time.");
-      setLoading(false)
+    if (amount > userData.balance) {
+      setErrorMassage("you don't have sufficient balance");
+      setLoading(false);
       return; // Stop further processing if the amount is too high
     }
-
-    const cashInData = {
-      userEmail: userData.email,
-      agentEmail,
-      phoneNumber,
-      amount,
-      type: "cashIn",
-    };
-    try {
-      const res = await axios.post("http://localhost:4000/cashIn", cashInData);
-      console.log(res.data);
-
-      if (res.data.acknowledged) {
-        e.target.reset();
-        setLoading(false)
-        setErrorMassage("")
-        toast.success("Wait until agent approves");
-      } else {
-        // Handle cases where the response is successful but acknowledged is false (if applicable)
-        toast.error("Request not acknowledged. Please try again.");
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // Specific error handling for 400 status code (e.g., user already has a cash-in request)
-        e.target.reset();
-
-        toast.error(error.response.data.error);
-      } else {
-        // General error handling for other errors
-        e.target.reset();
-
-        toast.error(
-          "An error occurred during the cash-in operation. Please try again later."
-        );
-      }
-      console.error("Error during cash-in operation:", error);
+    if (pin.length > 6) {
+      setErrorMassage("pin must be six digit");
+      setLoading(false);
+      return; // Stop further processing if the amount is too high
     }
-
-    console.log(cashInData);
+    const cashOutData = {
+        userEmail: userData.email,
+        agentEmail,
+        phoneNumber,
+        amount,
+        type: "cashOut",
+      };
+    console.log(cashOutData );
   };
-
   return (
     <div className="relative min-h-screen bg-[#F1F8E8]">
       <div>
         <p
           className="text-5xl text-[#95D2B3] text-center font-semibold
-                 uppercase pt-5"
+                   uppercase pt-5"
         >
-          Cash in
+          cash out
         </p>
       </div>
+      <div className="absolute top-7 left-7">
+        <div className="flex items-center justify-center">
+          <Link
+            to={"/home"}
+            className="  text-2xl text-[#95D2B3] p-2 border border-[#95D2B3] rounded-full"
+          >
+            <FaHome />
+          </Link>
+        </div>
+      </div>
 
-
-      {/* agent details ---------------- */}
+      {/* agent details  */}
       <div className="absolute top-7 left-7">
         <div className="flex items-center justify-center">
           <Link
@@ -174,15 +159,13 @@ const CashIn = () => {
         )}
       </div>
 
-
-      {/* cash in form  */}
       <div className="flex items-center justify-center mt-5">
         <form
           action=""
-          onSubmit={handleCashIn}
+          onSubmit={handleCashOut}
           className="mt-6 w-2/4 bg-white p-2 rounded-lg"
         >
-          {cashInWithEmail ? (
+          {cashOutWithEmail ? (
             <>
               {" "}
               <label
@@ -201,7 +184,7 @@ const CashIn = () => {
                 required
               />
               <label
-                onClick={() => setCashInWithEmail(false)}
+                onClick={() => setCashOutWithEmail(false)}
                 htmlFor="email"
                 className="block mt-2 text-xs font-semibold cursor-pointer text-right text-info  uppercase"
               >
@@ -226,7 +209,7 @@ const CashIn = () => {
                 required
               />
               <label
-                onClick={() => setCashInWithEmail(true)}
+                onClick={() => setCashOutWithEmail(true)}
                 htmlFor="email"
                 className="block mt-2 text-xs font-semibold cursor-pointer text-right text-info  uppercase"
               >
@@ -248,6 +231,20 @@ const CashIn = () => {
             className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
             required
           />
+         
+          <label
+            htmlFor="password-confirm"
+            className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
+          >
+            enter your pin
+          </label>
+          <input
+            type="number"
+            name="pin"
+            placeholder="Enter pin "
+            className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            required
+          />
           <label
             htmlFor="password-confirm"
             className="block mt-2 text-xs font-semibold text-red-500 uppercase"
@@ -256,12 +253,12 @@ const CashIn = () => {
           </label>
           <button
             type="submit"
-            className="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase rounded-lg bg-[#95D2B3] shadow-lg focus:outline-none hover:bg-[#95D2B3] hover:shadow-none"
+            className="w-full py-3 mt-6 font-bold tracking-widest text-white uppercase rounded-lg bg-[#95D2B3] shadow-lg focus:outline-none hover:bg-[#95D2B3] hover:shadow-none"
           >
             {loading ? (
               <SyncLoader color="#fffefe" size={10} speedMultiplier={0.6} />
             ) : (
-              "cash in"
+              "cash out"
             )}
           </button>
         </form>
@@ -270,4 +267,4 @@ const CashIn = () => {
   );
 };
 
-export default CashIn;
+export default CashOut;
