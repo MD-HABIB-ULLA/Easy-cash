@@ -5,6 +5,7 @@ import { useContext, useEffect } from "react";
 const AdminRoute = ({ children }) => {
     const { userData } = useContext(UserContext);
     const navigate = useNavigate();
+    const token = localStorage.getItem("access-token");
 
     useEffect(() => {
         if (!userData) {
@@ -16,7 +17,7 @@ const AdminRoute = ({ children }) => {
         return null; // or a loading indicator
     }
 
-    if (userData.role !== "admin") {
+    if (userData.role !== "admin" || !token) {
         navigate("/");
         return null; // or a "not authorized" message
     }

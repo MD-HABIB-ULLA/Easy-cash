@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { UserContext } from "../Context/UserContext";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { userData, loading } = useContext(UserContext);
@@ -45,10 +46,13 @@ const Navbar = () => {
               <p>{userData?.email}</p>
             </li>
             <li className="flex items-center">
-           <p >Phone Number</p>
-           <p>{userData?.phoneNumber}</p>
+              <p>Phone Number</p>
+              <p>{userData?.phoneNumber}</p>
             </li>
-            
+            <li className="text-error">
+              {" "}
+              <Link to={"/"}> Logout </Link>
+            </li>
           </ul>
         </div>
       </div>

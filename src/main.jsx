@@ -15,6 +15,7 @@ import CashIn from "./Pages/CashIn";
 import UserRoute from "./private/UserRoute";
 import PendingTransitions from "./Pages/PendingTransitions";
 import CashOut from "./Pages/CashOut";
+import SendMoney from "./Pages/SendMoney";
 // import { UserDataProvider } from "./Context/LoadDataContext";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
     element: (
       <UserRoute>
         <CashOut />
+      </UserRoute>
+    ),
+  },
+  {
+    path: "/sendMoney",
+    element: (
+      <UserRoute>
+        <SendMoney />
       </UserRoute>
     ),
   },
