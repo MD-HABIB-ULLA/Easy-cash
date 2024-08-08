@@ -4,17 +4,21 @@ import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { UserContext } from "../Context/UserContext";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const SendMoney = () => {
+  // const   {userData, setUserData,}
   const [sendMoneyEmail, setSendMoneyEmail] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMassage, setErrorMassage] = useState("");
+  const [info, setInfo] = useState("");
 
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const axiosSecure = useAxiosSecure();
 
   const handleSendMoney = async (e) => {
-    // setLoading(true);
+    setLoading(true);
     e.preventDefault();
     const form = e.target;
     const receiverEmail = form.elements.email ? form.elements.email.value : "";
@@ -24,16 +28,27 @@ const SendMoney = () => {
     const pin = form.elements.pin.value;
 
     const amount = parseFloat(form.elements.amount.value);
-    if (amount > userData.balance) {
-      setErrorMassage("you don't have sufficient balance");
+    if (amount + 5 > userData.balance) {
+      setErrorMassage("You don't have sufficient balance.");
       setLoading(false);
       return; // Stop further processing if the amount is too high
     }
-    if (pin.length > 6) {
-      setErrorMassage("pin must be six digit");
+    if (amount < 50) {
+      setErrorMassage("Transactions must be at least 50 Taka.");
       setLoading(false);
-      return; // Stop further processing if the amount is too high
+      return; // Stop further processing if the amount is too low
     }
+    if (amount >= 100) {
+      setInfo("For amounts over 100 Taka, a 5 Taka fee applies.");
+      // No need to return here if you just want to display information
+    }
+    if (pin.length !== 6) {
+      // PIN should be exactly 6 digits
+      setErrorMassage("PIN must be six digits.");
+      setLoading(false);
+      return; // Stop further processing if the PIN is invalid
+    }
+
     const sendMoneyData = {
       userEmail: userData.email,
       receiverEmail,
@@ -43,14 +58,35 @@ const SendMoney = () => {
       type: "sendMoney",
     };
     console.log(sendMoneyData);
-    const res = await axiosSecure.post(
-      "http://localhost:4000/sendMoney",
-      sendMoneyData
-    );
-    console.log(res.data);
+    try {
+      const res = await axiosSecure.post(
+        "http://localhost:4000/sendMoney",
+        sendMoneyData
+      );
+      // console.log(res.data.insertedId);
+      if (res.data.insertedId) {
+        const currentUserData = { email: userData.email, pin };
+        const loginRes = await axios.post(
+          "http://localhost:4000/login",
+          currentUserData
+        );
+        setUserData(loginRes.data);
+        e.target.reset();
+        setLoading(false);
+        toast.success("Send money successful");
+      } else {
+        setLoading(false);
+        toast.error("Transaction failed. Please try again.");
+      }
+    } catch (error) {
+      setLoading(false);
+      const errorMessage =
+        error.response?.data || "An error occurred. Please try again.";
+      toast.error(errorMessage);
+    }
   };
   return (
-    <div className="relative min-h-screen bg-[#F1F8E8]">
+    <div className="relative min-h-screen bg-[#F1F8E8] pb-10">
       <div>
         <p
           className="text-5xl text-[#95D2B3] text-center font-semibold
@@ -161,6 +197,12 @@ const SendMoney = () => {
             className="block mt-2 text-xs font-semibold text-red-500 uppercase"
           >
             {errorMassage}
+          </label>
+          <label
+            htmlFor="password-confirm"
+            className="block mt-2 text-xs font-semibold text-green-500 uppercase"
+          >
+            {info}
           </label>
           <button
             type="submit"

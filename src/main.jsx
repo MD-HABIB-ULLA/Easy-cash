@@ -16,6 +16,7 @@ import UserRoute from "./private/UserRoute";
 import PendingTransitions from "./Pages/PendingTransitions";
 import CashOut from "./Pages/CashOut";
 import SendMoney from "./Pages/SendMoney";
+import UserSelfTransaction from "./Pages/UserSelfTransection";
 // import { UserDataProvider } from "./Context/LoadDataContext";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -72,6 +73,14 @@ const router = createBrowserRouter([
     element: (
       <UserRoute>
         <SendMoney />
+      </UserRoute>
+    ),
+  },
+  {
+    path: "/userSelfTransaction",
+    element: (
+      <UserRoute>
+        <UserSelfTransaction />
       </UserRoute>
     ),
   },
