@@ -61,7 +61,7 @@ const CashIn = () => {
       if (error.response && error.response.status === 400) {
         // Specific error handling for 400 status code (e.g., user already has a cash-in request)
         e.target.reset();
-
+        setLoading(false)
         toast.error(error.response.data.error);
       } else {
         // General error handling for other errors

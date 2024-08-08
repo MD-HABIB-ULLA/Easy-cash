@@ -11,28 +11,6 @@ const PendingTransitions = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState("");
   const [errorMassage, setErrorMassage] = useState("");
-  // const [transitionsData, setTransitionData] = useState(null);
-  // console.log(userData.email);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const fetchPendingTransitions = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         `http://localhost:4000/pendingTransitions?email=${userData.email}`
-  //       );
-  //       setLoading(false);
-  //       setTransitionData(res.data);
-  //       console.log(res.data);
-  //     } catch (error) {
-  //       setLoading(false);
-  //       console.error("Error fetching pending transitions:", error);
-  //     }
-  //   };
-
-  //   if (userData && userData.email) {
-  //     fetchPendingTransitions();
-  //   }
-  // }, [userData]);
 
   const {
     data: transitionsData = [],
@@ -40,16 +18,19 @@ const PendingTransitions = () => {
     isPending: loading,
   } = useQuery({
     queryKey: ["pendingTransitions"],
-
     queryFn: async () => {
       const res = await axios.get(
         `http://localhost:4000/pendingTransitions?email=${userData.email}`
       );
       return res.data;
     },
-
     enabled: !!userData.email, // Only run the query if email exists
+    staleTime: 0, // Data is considered stale immediately
+    refetchOnWindowFocus: true, // Refetch data when the window regains focus
+    refetchInterval: false, // Disable automatic refetching by interval
   });
+  const reversedTransitionsData = [...transitionsData].reverse();
+
 
   const handleDelete = async (e) => {
     setDeleteLoading(true);
@@ -130,7 +111,7 @@ const PendingTransitions = () => {
                         </thead>
 
                         <tbody className="divide-y divide-gray-100 text-sm">
-                          {transitionsData?.map((data) => (
+                          {reversedTransitionsData?.map((data) => (
                             <tr
                               key={data._id}
                               className={`${

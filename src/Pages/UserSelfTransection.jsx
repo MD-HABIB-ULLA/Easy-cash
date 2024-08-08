@@ -78,6 +78,11 @@ const UserSelfTransaction = () => {
                             </th>
                             <th className="p-2">
                               <div className="text-left font-semibold">
+                                Agent details
+                              </div>
+                            </th>
+                            <th className="p-2">
+                              <div className="text-left font-semibold">
                                 Amount
                               </div>
                             </th>
@@ -114,6 +119,18 @@ const UserSelfTransaction = () => {
                                     ? data.receiverEmail
                                     : data.phoneNumber}
                                 </div>
+                              </td>
+                              <td className="p-2">
+                                {data.type === "cashOut" ||
+                                data.type === "cashIn" ? (
+                                  <div className="text-left">
+                                    {data.agentEmail
+                                      ? data.agentEmail
+                                      : data.phoneNumber}
+                                  </div>
+                                ) : (
+                                  "    -    "
+                                )}
                               </td>
                               <td className="p-2">
                                 <div

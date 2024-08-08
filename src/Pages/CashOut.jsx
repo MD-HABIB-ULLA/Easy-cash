@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { UserContext } from "../Context/UserContext";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const CashOut = () => {
   const [cashOutWithEmail, setCashOutWithEmail] = useState(true);
@@ -25,7 +26,7 @@ const CashOut = () => {
   };
 
   const handleCashOut = async (e) => {
-    // setLoading(true);
+    setLoading(true);
     e.preventDefault();
     const form = e.target;
     const agentEmail = form.elements.email ? form.elements.email.value : "";
@@ -35,8 +36,8 @@ const CashOut = () => {
     const pin = form.elements.pin.value;
 
     const amount = parseFloat(form.elements.amount.value);
-    if (amount > userData.balance) {
-      setErrorMassage("you don't have sufficient balance");
+    if (amount + amount * 0.015 > userData.balance) {
+      setErrorMassage("With cash out fee you don't have sufficient balance");
       setLoading(false);
       return; // Stop further processing if the amount is too high
     }
@@ -54,8 +55,22 @@ const CashOut = () => {
       type: "cashOut",
     };
     console.log(cashOutData);
-    const res = await axiosSecure.post("http://localhost:4000/cashOut", cashOutData);
+
+    try {
+      const res = await axiosSecure.post("/cashOut", cashOutData);
       console.log(res.data);
+      if (res.data.insertedId) {
+        toast.success("Cash out successful");
+        form.reset();
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        e.target.reset();
+        toast.error(error.response.data.error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="relative min-h-screen bg-[#F1F8E8]">
@@ -231,7 +246,7 @@ const CashOut = () => {
           <input
             type="number"
             name="amount"
-            placeholder="Enter cash in amount "
+            placeholder="Enter cash out amount "
             className="block w-full p-3 mt-2 text-gray-700 bg-[#F1F8E8] rounded-lg appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
             required
           />
