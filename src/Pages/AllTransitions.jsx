@@ -12,7 +12,7 @@ const AllTransitions = () => {
     const fetchTransitions = async () => {
       try {
         const res = await axiosSecure.get(
-          "http://localhost:4000/allTransitions"
+          "https://easy-cash-server.vercel.app/allTransitions"
         );
         setTransitions(res.data);
         console.log(res.data);
@@ -61,7 +61,7 @@ const AllTransitions = () => {
                   <th className="py-3 px-4 text-left">From</th>
                   <th className="py-3 px-4 text-left">To</th>
                   <th className="py-3 px-4 text-left">Amount</th>
-                  <th className="py-3 px-4 text-left">Time</th>
+                  <th className="py-3 px-4 text-left">Type</th>
                 </tr>
               </thead>
               <tbody className="text-blue-gray-900">
@@ -70,10 +70,14 @@ const AllTransitions = () => {
                     key={transition._id}
                     className="border-b border-blue-gray-200"
                   >
-                    <td className="py-3 px-4">{transition.from}</td>
-                    <td className="py-3 px-4">{transition.email}</td>
+                    <td className="py-3 px-4">
+                      {transition.agentEmail ||
+                        transition.phoneNumber ||
+                        transition.receiverEmail}
+                    </td>
+                    <td className="py-3 px-4">{transition.userEmail}</td>
                     <td className="py-3 px-4">{transition.amount}</td>
-                    <td className="py-3 px-4">{transition.time}</td>
+                    <td className="py-3 px-4">{transition.type}</td>
                   </tr>
                 ))}
               </tbody>

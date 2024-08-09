@@ -18,7 +18,7 @@ const CashIn = () => {
   console.log(userData);
   const loadAllAgentDetails = async () => {
     setDetailsLoading(true);
-    const res = await axios.get("http://localhost:4000/allAgent");
+    const res = await axios.get("https://easy-cash-server.vercel.app/allAgent");
     setAgentDetails(res.data);
     setDetailsLoading(false);
   };
@@ -45,7 +45,7 @@ const CashIn = () => {
       type: "cashIn",
     };
     try {
-      const res = await axios.post("http://localhost:4000/cashIn", cashInData);
+      const res = await axios.post("https://easy-cash-server.vercel.app/cashIn", cashInData);
       console.log(res.data);
 
       if (res.data.acknowledged) {

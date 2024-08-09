@@ -35,7 +35,7 @@ const UserDetailsShowingTable = ({ datas }) => {
 
       if (res.data.deletedCount) {
         const res = await axios.post(
-          "http://localhost:4000/login",
+          "https://easy-cash-server.vercel.app/login",
           currentUserData
         );
         refetch();

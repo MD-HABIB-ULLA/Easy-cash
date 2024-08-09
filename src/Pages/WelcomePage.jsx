@@ -41,7 +41,7 @@ const WelcomePage = () => {
 
       try {
         const res = await axios.post(
-          "http://localhost:4000/register",
+          "https://easy-cash-server.vercel.app/register",
           formData
         );
 
@@ -90,12 +90,12 @@ const WelcomePage = () => {
       };
 
       try {
-        const res = await axios.post("http://localhost:4000/login", formData);
+        const res = await axios.post("https://easy-cash-server.vercel.app/login", formData);
         console.log(res.data);
         if (res.data.email) {
           const userData = res.data;
           axios
-            .post("http://localhost:4000/jwt", formData)
+            .post("https://easy-cash-server.vercel.app/jwt", formData)
             .then((res) => {
               console.log(res.data);
               if (res.data.token) {

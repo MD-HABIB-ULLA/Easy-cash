@@ -20,7 +20,7 @@ const PendingTransitions = () => {
     queryKey: ["pendingTransitions"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:4000/pendingTransitions?email=${userData.email}`
+        `https://easy-cash-server.vercel.app/pendingTransitions?email=${userData.email}`
       );
       return res.data;
     },
@@ -40,7 +40,7 @@ const PendingTransitions = () => {
     if (pin.length === 6) {
       console.log(deleteConfirmId, userData.email, pin);
       const res = await axios.delete(
-        `http://localhost:4000/deletePendingTransition?email=${userData.email}&id=${deleteConfirmId}&pin=${pin}`
+        `https://easy-cash-server.vercel.app/deletePendingTransition?email=${userData.email}&id=${deleteConfirmId}&pin=${pin}`
       );
       console.log(res.data);
       if (res.data.deletedCount) {

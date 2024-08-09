@@ -17,6 +17,9 @@ import PendingTransitions from "./Pages/PendingTransitions";
 import CashOut from "./Pages/CashOut";
 import SendMoney from "./Pages/SendMoney";
 import UserSelfTransaction from "./Pages/UserSelfTransection";
+import TransactionManagement from "./Pages/TransactionManagement";
+import AgentRoute from "./private/AgentRoute";
+import AgentTransaction from "./Pages/AgentTransection";
 // import { UserDataProvider } from "./Context/LoadDataContext";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -82,6 +85,22 @@ const router = createBrowserRouter([
       <UserRoute>
         <UserSelfTransaction />
       </UserRoute>
+    ),
+  },
+  {
+    path: "/agentTransaction",
+    element: (
+      <AgentRoute>
+        <AgentTransaction />
+      </AgentRoute>
+    ),
+  },
+  {
+    path: "/transactionManagement",
+    element: (
+      <AgentRoute>
+        <TransactionManagement />
+      </AgentRoute>
     ),
   },
 ]);

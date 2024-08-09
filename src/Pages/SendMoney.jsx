@@ -60,14 +60,14 @@ const SendMoney = () => {
     console.log(sendMoneyData);
     try {
       const res = await axiosSecure.post(
-        "http://localhost:4000/sendMoney",
+        "https://easy-cash-server.vercel.app/sendMoney",
         sendMoneyData
       );
       // console.log(res.data.insertedId);
       if (res.data.insertedId) {
         const currentUserData = { email: userData.email, pin };
         const loginRes = await axios.post(
-          "http://localhost:4000/login",
+          "https://easy-cash-server.vercel.app/login",
           currentUserData
         );
         setUserData(loginRes.data);

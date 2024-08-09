@@ -20,7 +20,7 @@ const CashOut = () => {
 
   const loadAllAgentDetails = async () => {
     setDetailsLoading(true);
-    const res = await axios.get("http://localhost:4000/allAgent");
+    const res = await axios.get("https://easy-cash-server.vercel.app/allAgent");
     setAgentDetails(res.data);
     setDetailsLoading(false);
   };
@@ -60,7 +60,7 @@ const CashOut = () => {
       const res = await axiosSecure.post("/cashOut", cashOutData);
       console.log(res.data);
       if (res.data.insertedId) {
-        toast.success("Cash out successful");
+        toast.success("Wait until agent approve your request");
         form.reset();
       }
     } catch (error) {
