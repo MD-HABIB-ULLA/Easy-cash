@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const axiosSecure = axios.create({
 //   baseURL: "https://gym-server-pi.vercel.app",
-  baseURL: "http://localhost:4000",
+  baseURL: "https://easy-cash-server.vercel.app",
 });
 const useAxiosSecure = () => {
 
