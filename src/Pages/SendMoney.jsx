@@ -89,7 +89,7 @@ const SendMoney = () => {
     <div className="relative min-h-screen bg-[#F1F8E8] pb-10">
       <div>
         <p
-          className="text-5xl text-[#95D2B3] text-center font-semibold
+          className="md:text-5xl text-3xl text-[#95D2B3] text-center font-semibold
                    uppercase pt-5"
         >
           Send Money
@@ -106,11 +106,11 @@ const SendMoney = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center mt-5">
+      <div className="flex items-center justify-center mt-5 px-5">
         <form
           action=""
           onSubmit={handleSendMoney}
-          className="mt-6 w-2/4 bg-white p-2 rounded-lg"
+          className="mt-6 md:w-2/4 w-full bg-white p-2 rounded-lg"
         >
           {sendMoneyEmail ? (
             <>

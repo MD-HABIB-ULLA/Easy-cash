@@ -92,8 +92,8 @@ const UserDetailsShowingTable = ({ datas }) => {
   };
   return (
     <div>
-      <div className="flex justify-center">
-        <div className="overflow-x-auto">
+      <div className="flex justify-center px-5">
+        <div className="overflow-x-auto rounded-lg">
           <table className="min-w-full bg-white rounded-xl">
             <thead>
               <tr className="bg-[#95D2B3]  text-white ">

@@ -76,7 +76,7 @@ const CashOut = () => {
     <div className="relative min-h-screen bg-[#F1F8E8]">
       <div>
         <p
-          className="text-5xl text-[#95D2B3] text-center font-semibold
+          className="md:text-5xl text-3xl text-[#95D2B3] text-center font-semibold
                    uppercase pt-5"
         >
           cash out
@@ -124,17 +124,17 @@ const CashOut = () => {
             <SyncLoader color="#95D2B3" size={10} speedMultiplier={0.6} />
           </div>
         ) : (
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="mt-8 flow-root">
-              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className=" flex justify-center  align-middle sm:px-6 lg:px-8 px-5">
-                  <div className="w-2/3 flex justify-center p-2 rounded-lg bg-gray-50 overflow-x-auto">
-                    <table className=" divide-y rounded-lg w-full  divide-gray-300">
+          <div className="">
+            <div className="mt-8 ">
+              <div className="">
+                <div className=" flex justify-center  align-middle p-5   ">
+                  <div className=" flex justify-center px-5 rounded-lg bg-gray-50 overflow-x-auto">
+                    <table className=" divide-y rounded-lg w-full  divide-gray-300 ">
                       <thead>
                         <tr className="">
                           <th
                             scope="col"
-                            className="text-center py-3.5 pl-4 pr-3  text-sm font-semibold text-black sm:pl-0"
+                            className="text-center py-3.5 pl-10 pr-3  text-sm font-semibold text-black sm:pl-0"
                           >
                             Name
                           </th>
@@ -178,11 +178,11 @@ const CashOut = () => {
         )}
       </div>
 
-      <div className="flex items-center justify-center mt-5">
+      <div className="flex items-center justify-center mt-5 px-5">
         <form
           action=""
           onSubmit={handleCashOut}
-          className="mt-6 w-2/4 bg-white p-2 rounded-lg"
+          className="mt-6 md:w-2/4 w-full bg-white p-2 rounded-lg"
         >
           {cashOutWithEmail ? (
             <>

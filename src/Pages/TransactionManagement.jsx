@@ -113,7 +113,7 @@ const TransactionManagement = () => {
     <div className="relative min-h-screen bg-[#F1F8E8] pb-10">
       <div>
         <p
-          className="text-4xl text-[#95D2B3] text-center font-semibold
+          className="md:text-4xl text-3xl text-[#95D2B3] text-center font-semibold
                    uppercase pt-5"
         >
           Transaction Management{" "}

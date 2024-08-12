@@ -59,7 +59,7 @@ const PendingTransitions = () => {
     <div className="relative min-h-screen bg-[#F1F8E8]">
       <div>
         <p
-          className="text-5xl text-[#95D2B3] text-center font-semibold
+          className="md:text-5xl text-2xl text-[#95D2B3] text-center font-semibold
                    uppercase pt-5"
         >
           pending transitions

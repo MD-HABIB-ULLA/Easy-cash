@@ -78,10 +78,10 @@ const CashIn = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F1F8E8]">
+    <div className="relative min-h-screen bg-[#F1F8E8] overflow-hidden pb-10">
       <div>
         <p
-          className="text-5xl text-[#95D2B3] text-center font-semibold
+          className="md:text-5xl text-3xl text-[#95D2B3] text-center font-semibold
                  uppercase pt-5"
         >
           Cash in
@@ -120,11 +120,11 @@ const CashIn = () => {
             <SyncLoader color="#95D2B3" size={10} speedMultiplier={0.6} />
           </div>
         ) : (
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="mt-8 flow-root">
-              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className=" flex justify-center  align-middle sm:px-6 lg:px-8 px-5">
-                  <div className="w-2/3 flex justify-center p-2 rounded-lg bg-gray-50 overflow-x-auto">
+          <div className="p-5 ">
+            <div className="mt-8 ">
+              <div className=" overflow-x-auto ">
+                <div className=" flex justify-center  ">
+                  <div className=" flex justify-center p-2 rounded-lg bg-gray-50 overflow-x-auto">
                     <table className=" divide-y rounded-lg w-full  divide-gray-300">
                       <thead>
                         <tr className="">
@@ -152,7 +152,7 @@ const CashIn = () => {
                       <tbody className="">
                         {agentDetails?.map((details) => (
                           <tr key={details._id}>
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 text-center">
+                            <td className="whitespace-nowrap py-4 pl-10 pr-3 text-sm font-medium text-gray-900 text-center">
                               {details.firstName} {details.lastName}
                             </td>
 
@@ -176,11 +176,11 @@ const CashIn = () => {
 
 
       {/* cash in form  */}
-      <div className="flex items-center justify-center mt-5">
+      <div className="flex items-center justify-center mt-5 px-5">
         <form
           action=""
           onSubmit={handleCashIn}
-          className="mt-6 w-2/4 bg-white p-2 rounded-lg"
+          className="mt-6 md:w-2/4 w-full bg-white p-2 rounded-lg"
         >
           {cashInWithEmail ? (
             <>

@@ -33,7 +33,7 @@ const AllTransitions = () => {
     <div className="relative min-h-screen bg-[#F1F8E8]">
       <div>
         <p
-          className="text-5xl text-[#95D2B3] text-center font-semibold
+          className="md:text-5xl text-2xl text-[#95D2B3] text-center font-semibold
                  uppercase pt-5"
         >
           all Transitions
@@ -53,8 +53,8 @@ const AllTransitions = () => {
       {/* table for showing all transitions  */}
 
       {!loading ? (
-        <div className="flex mt-10  items-center justify-center pb-10">
-          <div className="overflow-x-auto">
+        <div className="flex mt-10  items-center justify-center pb-10 px-5 ">
+          <div className="overflow-x-auto rounded-lg">
             <table className="min-w-full bg-white shadow-md rounded-xl">
               <thead>
                 <tr className="bg-[#95D2B3]  text-white">
